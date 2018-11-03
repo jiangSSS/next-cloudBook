@@ -14,17 +14,25 @@
                         <img :src="scope.row.img" class="img">
                     </template>
                 </el-table-column>
-                <el-table-column property="index" label="排序"></el-table-column>
-                <el-table-column property="sort" label="类名"></el-table-column>
+                <el-table-column property="index" label="排序" width="140"></el-table-column>
+                <el-table-column property="sort" label="类名" width="140"></el-table-column>
                 <el-table-column property="book.title" label="图书"></el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">
-                        <el-button type="primary">编辑</el-button>
+                        <el-button type="primary" @click="handleEdit(scope.row._id)">编辑</el-button>
                         <el-button type="danger">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
         </div>
+        <el-pagination
+            class="page"
+            background
+            layout="prev, pager, next"
+            :page-size="10"
+            @current-change="pageChange"
+            :total="count">
+</el-pagination>
     </div>
 </template>
 
@@ -32,17 +40,27 @@
     export default {
         data() {
             return {
-                tableData: []
+                tableData: [],
+                page:1,
+                count:0
             }
         },
         methods: {
-            getData() {
-                this.$axios.get("/swiper", this.tableData).then(res => {
+            pageChange(page){   // 分页
+                this.page = page
+                this.getData()
+            }, 
+            getData() {  // 获取轮播图列表数据
+                this.$axios.get("/swiper",{pn:this.page,size:10}).then(res => {
                     console.log(res)
                     if (res.code == 200) {
+                        this.count = res.count
                         this.tableData = res.data
                     }
                 })
+            },      
+            handleEdit(id){  // 跳转到修改页面
+                this.$router.push({path:"/layout/editSwiper",query:{id}})
             }
         },
         created() {
@@ -56,5 +74,9 @@
     .img{
         width: 70px;
         height: 90px;
+    }
+    .page{
+        text-align: center;
+        margin-top: 30px;
     }
 </style>

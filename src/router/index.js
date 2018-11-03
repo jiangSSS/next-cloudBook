@@ -76,6 +76,14 @@ export default new Router({
           }
         },
         {
+          path:"editSwiper",
+          name:"editSwiper",
+          component:()=>import("@/views/Swiper/addSwiper.vue"),
+          meta:{
+            title:"修改轮播图"
+          }
+        },
+        {
           path:"bookList",
           name:"bookList",
           component:()=>import("@/views/Book/bookList.vue"),
