@@ -44,6 +44,14 @@ export default new Router({
           }
         },
         {
+          path:"editUser",
+          name:"editUser",
+          component:()=>import("@/views/User/addUser.vue"),
+          meta:{
+            title:"编辑用户"
+          }
+        },
+        {
           path:"changePassword",
           name:"changePassword",
           component:()=>import("@/views/User/changePassword.vue"),
@@ -97,6 +105,14 @@ export default new Router({
           component:()=>import("@/views/Book/addBook.vue"),
           meta:{
             title:"添加图书"
+          }
+        },
+        {
+          path:"editBook",
+          name:"editBook",
+          component:()=>import("@/views/Book/addBook.vue"),
+          meta:{
+            title:"修改图书"
           }
         },
       ]

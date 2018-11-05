@@ -19,7 +19,7 @@
                 <el-table-column property="updateTime" label="时间"></el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">
-                        <el-button type="primary">编辑</el-button>
+                        <el-button type="primary" @click="handleEdit(scope.row._id)">编辑</el-button>
                         <el-button type="danger">删除</el-button>
                     </template>
                 </el-table-column>
@@ -31,7 +31,7 @@
             layout="prev, pager, next"
             @current-change="currentPage"
             :page-size="10"        
-            :total="200">
+            :total="110">
         </el-pagination>
     </div>
 </template>
@@ -47,6 +47,10 @@
             }
         },
         methods: {
+            currentPage(page){   // 分页
+                this.page = page
+                this.getData()
+            },
             getData() {
                 this.$axios.get("/book", {pn:this.page,size:10}).then(res => {
                     console.log(res)
@@ -55,10 +59,9 @@
                         this.tableData = res.data
                     }
                 })
-            },  
-            currentPage(page){
-                this.page = page
-                this.getData()
+            },      
+            handleEdit(id){   // 跳转到修改页面
+                this.$router.push({path:"/layout/editBook",query:{id}})
             }
         },
         created() {

@@ -42,6 +42,10 @@
                     <el-menu-item index="/layout/addSwiper">添加轮播图</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
+            <el-menu-item index="/">
+                <i class="el-icon-setting"></i>
+                <span slot="title">登录</span>
+            </el-menu-item>
         </el-menu>
     </div>
 </template>

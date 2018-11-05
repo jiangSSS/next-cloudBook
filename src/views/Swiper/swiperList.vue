@@ -20,7 +20,7 @@
                 <el-table-column label="操作">
                     <template slot-scope="scope">
                         <el-button type="primary" @click="handleEdit(scope.row._id)">编辑</el-button>
-                        <el-button type="danger">删除</el-button>
+                        <el-button type="danger" @click="handleDelete(scope.row._id)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -61,6 +61,24 @@
             },      
             handleEdit(id){  // 跳转到修改页面
                 this.$router.push({path:"/layout/editSwiper",query:{id}})
+            },
+            handleDelete(id){
+                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$axios.post("/swiper/delete",{ids:id}).then(res=>{
+                         this.$message.success(res.msg)
+                         this.getData()
+                    })                
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+
             }
         },
         created() {

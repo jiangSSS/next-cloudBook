@@ -1,5 +1,5 @@
 <template>
-    <div class="content-warp">
+    <div class="container">
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item v-if="!isShow">添加轮播图</el-breadcrumb-item>
@@ -8,12 +8,18 @@
         <div>
             <h3 class="title" v-if="!isShow">添加轮播图</h3>
             <h3 class="title" v-else>修改轮播图</h3>
-            <el-form :label-position="left" label-width="100px" :model="formData" class="form">
-                <el-form-item label="轮播图标题">
-                    <el-input v-model="formData.title" class="input"></el-input>
+            <el-form label-width="100px" :model="formData" class="form">   
+                <el-form-item label="标题">
+                    <el-input v-model="formData.title"></el-input>
                 </el-form-item>
-                <el-form-item label="轮播图类别">
-                    <el-select v-model="formData.category" class="input" @change="categoryChange">
+                <el-form-item label="头图">
+                    <el-switch v-model="isUpload" active-text="手动上传" inactive-text="网址上传">
+                    </el-switch>
+                    <el-input v-model="formData.img" v-if="!isUpload"></el-input>
+                    <Upload v-model="formData.img" v-else></Upload>
+                </el-form-item>
+                <el-form-item label="类别">
+                    <el-select v-model="formData.category" @change="categoryChange" class="input">
                         <el-option v-for="(item,index) in categoryData" :key="index" :label="item.title" :value="item._id">
                         </el-option>
                     </el-select>
@@ -32,17 +38,12 @@
                     </div>
                 </div>
                 <el-form-item label="排序">
-                    <el-input-number v-model="formData.index" :min="1" label="描述文字"></el-input-number>
+                    <el-input-number v-model="formData.index" :min="1" label="描述文字" class="input"></el-input-number>
                 </el-form-item>
-                <el-form-item label="头图" class="input">
-                    <el-switch v-model="isUpload" active-text="网址上传" inactive-text="手动上传">
-                    </el-switch>
-                    <el-input v-model="formData.img" v-if="isUpload" class="input"></el-input>
-                    <Upload v-model="formData.img" v-else></Upload>
-                </el-form-item>
+                
                 <el-form-item>
-                    <el-button type="primary" @click="handleAddSwrper" v-if="!isShow">确认添加</el-button>
-                    <el-button type="primary" @click="handleSave" v-else>保存修改</el-button>
+                    <el-button class="input" type="primary" @click="handleAddSwrper" v-if="!isShow">确认添加</el-button>
+                    <el-button class="input" type="primary" @click="handleSave" v-else>保存修改</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -81,7 +82,6 @@
                     index: ""
                 },
                 isUpload: false,
-                left: "left",
                 categoryData: [],
                 bookData:[],
                 isShowDialog:false, // 图书列表弹框
@@ -120,9 +120,26 @@
             },
             handleSave(){    // 获取到修改的数据
                 this.$axios.put(`/swiper/${this.$route.query.id}`,this.formData).then(res=>{
-                    this.formData = res.data
+                    if(res.code == 200){
+                        this.$message.success(res.msg)
+                        setTimeout(()=>{
+                            this.$router.push("/layout/swiperlist")
+                        })
+                    }
                 })
             },
+            getInitData(){
+                this.$axios.get(`/swiper/${this.$route.query.id}`).then(res=>{
+                    this.formData = {
+                        ...this.formData,
+                        ...res.data,
+                        book:res.data.book._id,        // 回填书籍ID
+                        category:res.data.book.type    // 回填分类ID
+                    }
+                    this.getBookData()
+                })
+            }
+
         },
         computed:{
             getBookItem(){
@@ -141,7 +158,7 @@
                     this.isShow = false
             }
             if(this.isShow){
-                this.handleSave()
+                this.getInitData()
             }
         },     
         watch:{
@@ -165,22 +182,25 @@
 
 <style scoped lang="scss">
     .form {
-        margin-left: 420px;
+        width: 400px;
+        position: fixed;
+        left: 45%;
     }
 
     .input {
-        width: 400px;
-        box-sizing: border-box
+        width: 100%;
+        box-sizing: border-box;
     }
     .book-item{
         margin:20px 0;
-        width: 467px;
         padding: 15px;
         border: 1px solid #ccc;
         border-radius: 8px;
+        width: 100%;
+        box-sizing: border-box;
         .img-warp img{
-            width: 80px;
-            height: 100px;
+            width: 60px;    
+            height: 80px;
         }
         .book-desc{
             margin-left: 30px;

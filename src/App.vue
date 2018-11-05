@@ -12,8 +12,11 @@ export default {
 </script>
 
 <style>
-    .content-warp {
-        padding: 10px;
+    .container {
+        padding: 20px;
+    }
+    .form{
+      padding: 10px;
     }
     .title {
         text-align: center;

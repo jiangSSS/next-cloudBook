@@ -18,7 +18,7 @@
                 <el-table-column property="updatedTime" label="日期"></el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">
-                        <el-button type="primary">查看详情</el-button>
+                        <el-button type="primary" @click="handleDetail(scope.row._id)">查看详情</el-button>
                         <el-button type="danger" @click="handleDelete(scope.row._id)">删除</el-button>
                     </template>
                 </el-table-column>
@@ -52,6 +52,9 @@
                         this.tableData = res.data
                     }
                 })
+            },
+            handleDetail(id){
+                this.$router.push({path:"/layout/editUser",query:{id}})
             },
             handleDelete(id) {
                 this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
