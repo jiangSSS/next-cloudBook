@@ -1,5 +1,5 @@
 <template>
-    <div class="content-warp">
+    <div class="container">
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>轮播图</el-breadcrumb-item>
@@ -32,7 +32,7 @@
             :page-size="10"
             @current-change="pageChange"
             :total="count">
-</el-pagination>
+        </el-pagination>
     </div>
 </template>
 

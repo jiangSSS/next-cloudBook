@@ -6,7 +6,7 @@
                     <i class="el-icon-setting"></i>
                     <span>用户管理</span>
                 </template>
-                <el-menu-item-group>
+                <el-menu-item-group class="item-group">
                     <el-menu-item index="/layout/userList">用户列表</el-menu-item>
                     <el-menu-item index="/layout/addUser">添加管理</el-menu-item>
                     <el-menu-item index="/layout/changePassword">修改密码</el-menu-item>
@@ -18,8 +18,9 @@
                     <i class="el-icon-document"></i>
                     <span>分类管理</span>
                 </template>
-                <el-menu-item-group>
-                    <el-menu-item index="1-1">分类管理</el-menu-item>
+                <el-menu-item-group class="item-group">
+                    <el-menu-item index="/layout/category">分类管理</el-menu-item>
+                    <el-menu-item index="/layout/addCategory">添加分类</el-menu-item>
                 </el-menu-item-group>
             </el-submenu>
             <el-submenu index="3">
@@ -27,7 +28,7 @@
                     <i class="el-icon-menu"></i>
                     <span>图书管理</span>
                 </template>
-                <el-menu-item-group>
+                <el-menu-item-group class="item-group">
                     <el-menu-item index="/layout/bookList">图书列表</el-menu-item>
                     <el-menu-item index="/layout/addBook">添加图书</el-menu-item>
                 </el-menu-item-group>
@@ -37,7 +38,7 @@
                     <i class="el-icon-location"></i>
                     <span>轮播图管理</span>
                 </template>
-                <el-menu-item-group>
+                <el-menu-item-group class="item-group">
                     <el-menu-item index="/layout/swiperList">轮播图列表</el-menu-item>
                     <el-menu-item index="/layout/addSwiper">添加轮播图</el-menu-item>
                 </el-menu-item-group>
@@ -51,11 +52,21 @@
 </template>
 
 <script>
-    export default {};
+    export default {
+        data(){
+            return{
+                isCollapse:true
+            }
+        }
+    };
 </script>
 
 <style scoped lang="scss">
     .el-menu {
         height: 100vh;
+    }
+    .item-group{
+        margin-left: -15px;
+        text-align: center;
     }
 </style>

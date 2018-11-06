@@ -6,6 +6,38 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path:"/yaodetail",
+      name:"yaodetail",
+      component:()=>import("@/views/Yao/detail.vue"),
+      meta:{
+        title:"登录"
+      }
+    },
+    {
+      path:"/yaodetail2",
+      name:"yaodetail2",
+      component:()=>import("@/views/Yao/detail2.vue"),
+      meta:{
+        title:"登录"
+      }
+    },
+    {
+      path:"/yaodetail3",
+      name:"yaodetail3",
+      component:()=>import("@/views/Yao/detail3.vue"),
+      meta:{
+        title:"登录"
+      }
+    },
+    {
+      path:"/yaodetail4",
+      name:"yaodetail4",
+      component:()=>import("@/views/Yao/detail4.vue"),
+      meta:{
+        title:"登录"
+      }
+    },
+    {
       path:"/",
       name:"login",
       component:()=>import("@/views/Login/login.vue"),
@@ -41,6 +73,14 @@ export default new Router({
           component:()=>import("@/views/User/addUser.vue"),
           meta:{
             title:"添加用户"
+          }
+        },
+        {
+          path:"UserDetail",
+          name:"UserDetail",
+          component:()=>import("@/views/User/addUser.vue"),
+          meta:{
+            title:"用户详情"
           }
         },
         {
@@ -110,9 +150,25 @@ export default new Router({
         {
           path:"editBook",
           name:"editBook",
-          component:()=>import("@/views/Book/addBook.vue"),
+          component:()=>import("@/views/Book/editBook.vue"),
           meta:{
             title:"修改图书"
+          }
+        },
+        {
+          path:"category",
+          name:"category",
+          component:()=>import("@/views/Category/category.vue"),
+          meta:{
+            title:"分类列表"
+          }
+        },
+        {
+          path:"addCategory",
+          name:"addCategory",
+          component:()=>import("@/views/Category/addCategory.vue"),
+          meta:{
+            title:"添加分类"
           }
         },
       ]

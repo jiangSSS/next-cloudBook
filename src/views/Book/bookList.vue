@@ -1,5 +1,5 @@
 <template>
-    <div class="content-warp">
+    <div class="container">
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>图书列表</el-breadcrumb-item>
@@ -25,12 +25,7 @@
                 </el-table-column>
             </el-table>
         </div>
-        <el-pagination
-            class="page"
-            background 
-            layout="prev, pager, next"
-            @current-change="currentPage"
-            :page-size="10"        
+        <el-pagination class="page" background layout="prev, pager, next" @current-change="currentPage" :page-size="10"
             :total="110">
         </el-pagination>
     </div>
@@ -41,27 +36,27 @@
         data() {
             return {
                 tableData: [],
-                count:0,
-                page:1,
-                
+                count: 0,
+                page: 1,
+
             }
         },
         methods: {
-            currentPage(page){   // 分页
+            currentPage(page) {   // 分页
                 this.page = page
                 this.getData()
             },
             getData() {
-                this.$axios.get("/book", {pn:this.page,size:10}).then(res => {
+                this.$axios.get("/book", { pn: this.page, size: 10 }).then(res => {
                     console.log(res)
                     if (res.code == 200) {
                         this.count = res.count
                         this.tableData = res.data
                     }
                 })
-            },      
-            handleEdit(id){   // 跳转到修改页面
-                this.$router.push({path:"/layout/editBook",query:{id}})
+            },
+            handleEdit(id) {   // 跳转到修改页面
+                this.$router.push({ path: "/layout/editBook", query: { id } })
             }
         },
         created() {
@@ -71,13 +66,13 @@
 </script>
 
 <style scoped>
-    
-    .img{
+    .img {
         width: 70px;
         height: 90px;
     }
-    .page{
+
+    .page {
         text-align: center;
-        margin-top: 30px;   
+        margin-top: 30px;
     }
 </style>

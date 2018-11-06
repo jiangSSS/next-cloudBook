@@ -1,5 +1,5 @@
 <template>
-    <div class="content-warp">
+    <div class="container">
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>用户管理</el-breadcrumb-item>
@@ -54,7 +54,7 @@
                 })
             },
             handleDetail(id){
-                this.$router.push({path:"/layout/editUser",query:{id}})
+                this.$router.push({path:"/layout/UserDetail",query:{id}})
             },
             handleDelete(id) {
                 this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {

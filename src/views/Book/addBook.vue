@@ -2,12 +2,10 @@
     <div class="container">
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item v-if="!isShow">添加图书</el-breadcrumb-item>
-            <el-breadcrumb-item v-else>编辑图书</el-breadcrumb-item>
+            <el-breadcrumb-item>添加图书</el-breadcrumb-item>
         </el-breadcrumb>
         <div>
-            <h3 class="title" v-if="!isShow">添加图书</h3>
-            <h3 class="title" v-else>编辑图书</h3>
+            <h3 class="title">添加图书</h3>
             <el-form :label-position="right" label-width="80px" :model="formData" class="form">
                 <el-form-item label="链接">
                     <el-input v-model="formData.url"></el-input>
@@ -28,8 +26,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item>
-                    <el-button class="category" type="primary" @click="handleAddBook" v-if="!isShow">确认添加</el-button>
-                    <el-button class="category" type="primary" @click="handleEditBook" v-else>确认修改</el-button>
+                    <el-button class="category" type="primary" @click="handleAddBook">确认添加</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -50,18 +47,20 @@
                     img: "",
                     typeId: ""
                 },
-                
+                page:1,
                 isUpload: false,   // 手动上传图片  默认为false
                 right: "right",    // form 表单右对齐
                 categoryData: [],  // 分类数据
-                isShow:false       // 判断 添加/修改页面
             }
         },
         methods: {
             getCategory() {   // 获取分类的数据
-                this.$axios.get("/category",{pn:this.page,size:10}).then(res => {
-                    this.count = res.count
-                    this.categoryData = res.data
+                this.$axios.get("/category", { pn: this.page }).then(res => {
+                    this.categoryData = [...this.categoryData,...res.data]
+                    if (res.data.length == 10) {
+                        this.page = this.page + 1
+                        this.getCategory()
+                    }
                 })
             },
             handleAddBook() {  // 提交添加按钮
@@ -77,61 +76,28 @@
                     }
                 })
             },
-            handleEditBook(){ // 提交修改按钮
-                this.$axios.post(`/book/${this.$route.query.id}`,this.formData).then(res=>{
-                    if(res.code == 200){
-                        this.$message.success(res.msg)
-                        setTimeout(()=>{
-                            this.$router.push("/layout/bookList")
-                        },1000)
-                    }
-                })
-            },
-            getEditData(){ // 获取修改的数据
-                this.$axios.get(`/book/${this.$route.query.id}`).then(res=>{
-                    // this.formData = {
-                    //     ...this.formData,
-                    //     ...res.data,
-                    //     // category:res.data.book.title    // 回填分类ID
-                    // }
-                    this.formData = res.data
-                })
-            }         
+
         },
         created() {
             this.getCategory()
-            if(this.$route.name == "editBook"){    // 监听路由
-                    this.isShow = true
-                }else{
-                    this.isShow = false
-            }
-            if(this.isShow){
-                this.getEditData()
-            }
         },
-        watch:{
-            $route(to,from){
-                if(to.name == "editBook"){    // 监听路由
-                    this.isShow = true
-                }else{
-                    this.isShow = false
-                    this.formData = {    // 如果为添加页面 则清空数据
-                        url: "",
-                        author: "",
-                        img: "",
-                        typeId: ""
-                    }
-                }
-            }
-        }
     }
 </script>
 
 <style scoped lang="scss">
     .form {
         width: 400px;
+        position: absolute;
+        /* left: 50%;
+        transform: translate(-50%)      */
+        transform: translate(100%)
     }
-    .category{
+
+    .container {
+        position: relative;
+    }
+
+    .category {
         width: 100%;
         box-sizing: border-box;
     }

@@ -1,10 +1,10 @@
 <template>
     <div>
         <el-row>
-            <el-col :span="4" style="height:100vh">
+            <el-col :span="3" style="height:100vh">
                 <SideBar></SideBar>
             </el-col>
-            <el-col :span="20" style="height:100vh;overflow:scroll" >
+            <el-col :span="21" style="height:100vh;overflow:scroll" >
                 <div>   
                     <Header></Header>
                     <Main></Main>

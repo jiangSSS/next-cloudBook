@@ -14,7 +14,7 @@ const store = new Store({
         }
     },
     mutations:{
-        CHANGE_userInfo (state,userInfo){
+        CHANGE_USERINFO (state,userInfo){
             state.userInfo = userInfo
         }
     },

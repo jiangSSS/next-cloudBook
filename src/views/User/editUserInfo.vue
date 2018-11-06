@@ -4,6 +4,7 @@
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item>修改个人信息</el-breadcrumb-item>
         </el-breadcrumb>
+        <h3 class="title">修改个人信息</h3>
         <el-form :model="formData" label-width="80px" class="form">
             <el-form-item label="用户名">
                 <el-input v-model="formData.username"></el-input>
@@ -45,25 +46,25 @@
             }
         },
         methods: {
-            initData() {
+            getData() {
                 this.formData = {
                     ...this.$store.state.userInfo
                 }
             },
             handleEditUser() {
-                this.$axios.put(`/user/userInfo`).then(res => {
+                this.$axios.put(`/user/userInfo`,this.formData).then(res => {
                     console.log("修改", res)
-                    if (res.code == 200) {
-                        let userInfo = res.data
-                        this.$store.commit("CHANGE_userInfo", userInfo)
-                        this.initData()
+                    if (res.code == 200) {      
+                        let newInfo = res.data
+                        this.$store.commit("CHANGE_USERINFO", newInfo)
+                        this.getData()
                         this.$message.success(res.msg)
                     }
                 })
             },
         },
         created() {
-            this.initData()
+            this.getData()
         }
     }
 </script>
@@ -71,6 +72,13 @@
 <style scoped>
     .form{
         width: 400px;
+        position: absolute;
+        /* left: 50%;
+        transform: translate(-50%) */
+        transform: translate(100%)
+    }
+    .container{
+        position: relative;
     }
     .input{
         width: 100%;

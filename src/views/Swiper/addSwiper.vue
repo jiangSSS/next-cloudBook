@@ -107,7 +107,7 @@
                 this.formData.book = id
                 this.isShowDialog = false       // 选择完成后图书列表弹框关闭
             },      
-            handleAddSwrper() {    // 提交添加轮播图
+            handleAddSwrper() {    // 提交添加
                 this.$axios.post("/swiper", this.formData).then(res => {
                     console.log(res)
                     if (res.code == 200) {
@@ -118,7 +118,7 @@
                     }
                 })
             },
-            handleSave(){    // 获取到修改的数据
+            handleSave(){    // 提交修改
                 this.$axios.put(`/swiper/${this.$route.query.id}`,this.formData).then(res=>{
                     if(res.code == 200){
                         this.$message.success(res.msg)
@@ -128,7 +128,7 @@
                     }
                 })
             },
-            getInitData(){
+            getInitData(){  // 获取到修改的数据
                 this.$axios.get(`/swiper/${this.$route.query.id}`).then(res=>{
                     this.formData = {
                         ...this.formData,
@@ -183,8 +183,13 @@
 <style scoped lang="scss">
     .form {
         width: 400px;
-        position: fixed;
-        left: 45%;
+        position: absolute;
+        /* left: 50%;
+        transform: translate(-50%)      */
+        transform: translate(100%)
+    }
+    .container{
+        position: relative;
     }
 
     .input {
