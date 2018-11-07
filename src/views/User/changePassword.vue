@@ -28,7 +28,9 @@
             const validatePassword = (rule, value, callback) => {
                 if(value === ""){
                     callback(new Error("请输入密码"))
-                }else{               
+                }else if(value.length <5){
+                    callback(new Error("密码长度不可小于5位"))
+                }else{
                     callback()
                 }
             }
@@ -51,11 +53,17 @@
         methods: {
             handleEditPassword() {
                 this.isLoading = true
-                this.$axios.put("/user/password", this.formData).then(res => {
+                this.$axios.put("/user/password", {
+                    password:this.formData.password,
+                    new_password:this.formData.new_password}
+                ).then(res => {
                     console.log(res)
                     if (res.code == 200) {
-                        this.$store.commit("CHANGE_USERINFO", res.data)
+                        // this.$store.commit("CHANGE_USERINFO", res.data)
                         this.$message.success(res.msg)
+                        setTimeout(()=>{
+                            this.$router.push("/layout/editUserInfo")
+                        },1000)
                     } else {
                         this.$message.error(res.msg)
                     }

@@ -171,6 +171,22 @@ export default new Router({
             title:"添加分类"
           }
         },
+        {
+          path:"categoryDetail",
+          name:"categoryDetail",
+          component:()=>import("@/views/Category/categoryDetail.vue"),
+          meta:{
+            title:"分类详情"
+          }
+        },
+        {
+          path:"editCategory",
+          name:"editCategory",
+          component:()=>import("@/views/Category/editCategory.vue"),
+          meta:{
+            title:"修改分类"
+          }
+        },
       ]
     }
   ]

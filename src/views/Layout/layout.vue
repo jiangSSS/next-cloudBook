@@ -4,7 +4,7 @@
             <el-col :span="3" style="height:100vh">
                 <SideBar></SideBar>
             </el-col>
-            <el-col :span="21" style="height:100vh;overflow:scroll" >
+            <el-col :span="21" style="height:100vh;overflowY:scroll" >
                 <div>   
                     <Header></Header>
                     <Main></Main>

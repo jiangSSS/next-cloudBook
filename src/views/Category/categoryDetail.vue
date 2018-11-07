@@ -2,24 +2,29 @@
     <div class="container">
         <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>分类列表</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/layout/category' }">分类列表</el-breadcrumb-item>
+            <el-breadcrumb-item>分类详情</el-breadcrumb-item>
         </el-breadcrumb>
         <div>
-            <h3 class="title">分类列表</h3>
+            <h3 class="title">分类列表  -  <span>{{categoryTitle}}</span></h3>
             <el-table :data="tableData" style="width: 100%">
                 <el-table-column type="index" width="50"></el-table-column>
-                <el-table-column property="title" label="分类名称" width="170"></el-table-column>
-                <el-table-column property="books.length" label="书籍数量" width="150"></el-table-column>
-                <el-table-column property="index" label="排序" width="150"></el-table-column>
-                <el-table-column label="图标" width="150">
+                <el-table-column property="title" label="书籍名称" width="180"></el-table-column>
+                <el-table-column label="图标" width="180">
                     <template slot-scope="scope">
-                        <img :src="scope.row.icon" class="img">
+                        <img :src="scope.row.img" class="img">
                     </template>
                 </el-table-column>
-                <el-table-column property="_id" label="编号"></el-table-column>
+                <el-table-column property="author" label="作者" width="150"></el-table-column>   
+                <el-table-column property="index" label="排序" width="120">
+                    <template slot-scope="scope">
+                        <el-tag size="small">{{scope.row.index}}</el-tag>
+                    </template>
+                </el-table-column>
+                <el-table-column property="createTime" label="创建日期" width="220"></el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">
-                        <el-button type="primary" @click="handleDetail(scope.row._id)" size="mini">详情</el-button>
+                        <el-button type="" @click="handleDetail(scope.row)" size="mini">生成轮播图</el-button>
                         <el-button type="primary" @click="handleEdit(scope.row._id)" size="mini">编辑</el-button>
                         <el-button type="danger" @click="handleDelete(scope.row._id)" size="mini">删除</el-button>
                     </template>
@@ -42,8 +47,9 @@
         data(){
             return{
                 tableData:[],
+                categoryTitle:"",
                 page:1,
-                count:0             
+                count:0  ,           
             }
         },
         methods:{
@@ -52,27 +58,43 @@
                 this.getData()
             },
             getData(){
-                this.$axios.get("/category",{pn:this.page,size:10}).then(res=>{
+                this.$axios.get(`/category/${this.$route.query.id}/books`,{pn:this.page,size:10}).then(res=>{
+                    console.log(res);          
                     this.count = res.count
-                    this.tableData = res.data
+                    this.tableData = res.data.books,
+                    this.categoryTitle = res.data.title
                 })
             },
-            // 查看分类详情
-            handleDetail(id){
-                this.$router.push({path:"/layout/categoryDetail",query:{id}})
+            // 生成轮播图
+            handleDetail(data){
+                console.log(data)
+                let params = {
+                    title:data.title,
+                    img:data.img,
+                    book:data._id,
+                    index:data.index
+                }
+                this.$axios.post("/swiper",params).then(res=>{
+                    if(res.code == 200){
+                        this.$message.success(res.msg)
+                        setTimeout(()=>{
+                            this.$router.push("/layout/swiperList")
+                        })
+                    }
+                })
             },
-            // 修改分类
+            // 修改
             handleEdit(id){
-                this.$router.push({path:"/layout/editCategory",query:{id}})
+                this.$router.push({ path: "/layout/editBook", query: { id } })
             },
-            // 删除分类
+            // 删除
             handleDelete(id){
-                this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+                 this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$axios.delete(`/category/${id}`).then(res=>{
+                    this.$axios.delete(`/book/${id}`).then(res=>{
                         if(res.code == 200){
                             this.$message.success(res.msg)
                             this.getData()

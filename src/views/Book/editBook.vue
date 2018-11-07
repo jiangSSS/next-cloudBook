@@ -23,7 +23,8 @@
                     <el-input v-model="formData.index"></el-input>
                 </el-form-item>
                 <el-form-item label="描述">
-                    <el-input v-model="formData.desc"></el-input>
+                    <!-- <el-input v-model="formData.desc"></el-input> -->
+                    <el-input type="textarea" v-model="formData.desc"></el-input>
                 </el-form-item>
                 <el-form-item label="分类">
                     <el-select v-model="formData.type" class="submit">
@@ -74,7 +75,11 @@
                 })
             },
             handleEditBook() {
-                this.$axios.put(`/book`,this.formData).then(res => {
+                let params = {
+                    ...this.formData,
+                    book_id:this.$route.query.id
+                }
+                this.$axios.put(`/book`,params).then(res => {
                     console.log("111",res)
                     if (res.code == 200) {
                         this.$message.success(res.msg)

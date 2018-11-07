@@ -3,14 +3,14 @@
         <h1 class="logo">logo</h1>
         <h2 class="fll">云书后台管理系统</h2>
         <div class="userInfo flr">
-            <el-dropdown>
+            <el-dropdown @command="handleCommand">
                 <span class="el-dropdown-link">
-                    <img src="../../assets/logo.png" class="user-img">
+                    <img :src="userInfo.avatar" class="user-img">
                     <i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item>修改个人信息</el-dropdown-item>
-                    <el-dropdown-item>退出登录</el-dropdown-item>
+                    <el-dropdown-item command="1">修改个人信息</el-dropdown-item>
+                    <el-dropdown-item command="2">退出登录</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
@@ -18,8 +18,36 @@
 </template>
 
 <script>
+    import {mapState} from "vuex"
     export default {
+        data(){
+            return{
 
+            }
+        },
+        methods:{
+            handleCommand(command){
+                if(command == 1){
+                    this.$router.push("/layout/editUserInfo")
+                }
+                if(command == 2){
+                    this.$axios.get("/logout").then(res=>{
+                        if(res.code == 200){
+                            this.$message.success("退出登录成功")
+                            // this.$store.commit("CHANHE_USERINFO",null)
+                            setTimeout(()=>{
+                                this.$router.push("/")  
+                            },1000)
+                        }else{
+                            this.$message.error(res.msg)
+                        }            
+                    })
+                }
+            }
+        },
+        computed:{
+            ...mapState(["userInfo"])
+        }
     }
 </script>
 
@@ -40,8 +68,8 @@
         .userInfo{
             padding: 20px 30px 0 0;
             .user-img{
-                width: 20px;
-                height: 20px;
+                width: 30px;
+                height: 30px;
             }
         }      
     }

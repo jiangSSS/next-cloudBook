@@ -94,12 +94,14 @@
                 })
             }
         },
-        created() {
-            this.getUserDetail()
+        created() {         
             if (this.$route.name == "UserDetail") {
                 this.isShow = true
             } else {
                 this.isShow = false
+            }
+            if(this.isShow){
+                this.getUserDetail()
             }
         },
         watch: {

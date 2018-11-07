@@ -37,7 +37,7 @@
                     username: "",
                     password: ""
                 },
-                // rule: {
+                // rules: {
                 //     username: [{ validator: validateUsername, trigger: 'blur' }],
                 //     password: [{ validator: validatePassword, trigger: 'blur' }]
                 // },
