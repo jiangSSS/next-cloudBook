@@ -51,7 +51,7 @@
                 this.page = page
                 this.getData()
             },
-            getData(){
+            getData(){   // 分类列表数据
                 this.$axios.get("/category",{pn:this.page,size:10}).then(res=>{
                     this.count = res.count
                     this.tableData = res.data

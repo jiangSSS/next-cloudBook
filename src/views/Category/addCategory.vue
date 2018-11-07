@@ -44,7 +44,7 @@
             }
         },
         methods:{
-            handleAddCategory(){
+            handleAddCategory(){     // 添加分类
                 this.$axios.post("/category",this.formData).then(res=>{
                     if(res.code == 200){
                         this.$message.success(res.msg)

@@ -45,12 +45,12 @@
             }
         },
         methods:{
-            getData(){
+            getData(){   // 获取到要要修改的数据
                 this.$axios.get(`/category/${this.$route.query.id}`).then(res=>{
                     this.formData = res.data
                 })
             },
-            handleEdit(){
+            handleEdit(){      // 提交修改
                 this.$axios.put(`/category/${this.$route.query.id}`,this.formData).then(res=>{
                     if(res.code == 200){
                         this.$message.success(res.msg)
