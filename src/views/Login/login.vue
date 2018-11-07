@@ -32,15 +32,15 @@
             //         callback(new Error("请输入合法的密码"))
             //     }
             // }
+            // rules: {
+                //     username: [{ validator: validateUsername, trigger: 'blur' }],
+                //     password: [{ validator: validatePassword, trigger: 'blur' }]
+                // },
             return {
                 formData: {
                     username: "",
                     password: ""
                 },
-                // rules: {
-                //     username: [{ validator: validateUsername, trigger: 'blur' }],
-                //     password: [{ validator: validatePassword, trigger: 'blur' }]
-                // },
                 isLoading: false,
             }
         },
